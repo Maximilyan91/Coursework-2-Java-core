@@ -1,12 +1,13 @@
 import Task.DailyTask;
 import Task.Type;
+import Exception.IncorrectArgumentException;
 
 import java.time.LocalDate;
 
 ;
 
 public class Main {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IncorrectArgumentException {
 
         Task.DailyTask q = new DailyTask("Название", Type.WORK,"ваыв");
         Task.DailyTask e = new DailyTask("Название2", Type.PERSONAL,"ваыв");

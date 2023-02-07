@@ -1,8 +1,8 @@
 package Task;
 
+import Exception.IncorrectArgumentException;
 import java.time.LocalDate;
 import java.util.Objects;
-import java.util.Random;
 
 public abstract class Task {
     private static int idGenerator = 1;  // Также для более гибкого управления задачами рекомендуется завести поле id, которое нужно проставлять через генератор.
@@ -12,23 +12,32 @@ public abstract class Task {
     private LocalDate dateTime;  // У каждой задачи есть дата и время, которые были присвоены при создании.
     private String description;  // Описание задачи(У каждой задачи может быть поле для описания)
 
-    public Task(String title, Type type, String description) {
-        this.title = title;
+    public Task(String title, Type type, String description) throws IncorrectArgumentException {
+        setTitle(title);
         this.type = type;
         this.dateTime = LocalDate.now();
-        this.description = description;
+        setDescription(description);
         id = idGenerator++;
-
     }
 
-
+    public Type getType() {
+        return type;
+    }
 
     public String getTitle() {
         return title;
     }
 
-    public void setTitle(String title) {
+    public LocalDate getDateTime() {
+        return dateTime;
+    }
+
+    public void setTitle(String title) throws IncorrectArgumentException {
+        if (title != null && !title.isEmpty() && !title.isBlank()){
         this.title = title;
+    } else {
+        throw new IncorrectArgumentException("загололвок задачи");
+        }
     }
 
     public int getId() {
@@ -39,8 +48,12 @@ public abstract class Task {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(String description) throws IncorrectArgumentException {
+        if (description != null && !description.isEmpty() && !description.isBlank()){
         this.description = description;
+    } else {
+        throw new IncorrectArgumentException("загололвок описания");
+        }
     }
 
     @Override
