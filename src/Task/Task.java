@@ -2,19 +2,25 @@ package Task;
 
 import java.time.LocalDate;
 import java.util.Objects;
+import java.util.Random;
 
-public class Task {
-    private int idGenerator;  // Также для более гибкого управления задачами рекомендуется завести поле id, которое нужно проставлять через генератор.
+public abstract class Task {
+    private static int idGenerator = 1;  // Также для более гибкого управления задачами рекомендуется завести поле id, которое нужно проставлять через генератор.
     private String title;   // Заголовок задачи.(Каждая задача обязательно имеет заголовок)
     private Type type;    // Также все задачи обязательно нужно делить по типу: личные или рабочие задачи
-    private int id;
-    //    private LocalDate dateTime;  // У каждой задачи есть дата и время, которые были присвоены при создании.
+    private static int id;
+    private LocalDate dateTime;  // У каждой задачи есть дата и время, которые были присвоены при создании.
     private String description;  // Описание задачи(У каждой задачи может быть поле для описания)
 
-    public Task(String title, String description) {
+    public Task(String title, Type type, String description) {
         this.title = title;
+        this.type = type;
+        this.dateTime = LocalDate.now();
         this.description = description;
+        this.id = idGenerator++;
     }
+
+
 
     public String getTitle() {
         return title;
@@ -26,10 +32,6 @@ public class Task {
 
     public int getId() {
         return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
     }
 
     public String getDescription() {
@@ -52,4 +54,17 @@ public class Task {
     public int hashCode() {
         return Objects.hash(title, id, description);
     }
+
+    @Override
+    public String toString() {
+        return "Task{" +
+                "idGenerator=" + idGenerator +
+                ", title='" + title + '\'' +
+                ", type=" + type +
+                ", id=" + id +
+                ", dateTime=" + dateTime +
+                ", description='" + description + '\'' +
+                '}';
+    }
+
 }

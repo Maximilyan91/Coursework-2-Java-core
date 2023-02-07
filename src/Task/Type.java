@@ -1,6 +1,12 @@
 package Task;
 
 public enum Type {
-    WORK,
-    PERSONAL
+    WORK("Рабочая"),
+    PERSONAL("Личная");
+
+    private final String name;
+
+    Type(String name) {
+        this.name = name;
+    }
 }
