@@ -8,7 +8,7 @@ public abstract class Task {
     private static int idGenerator = 1;  // Также для более гибкого управления задачами рекомендуется завести поле id, которое нужно проставлять через генератор.
     private String title;   // Заголовок задачи.(Каждая задача обязательно имеет заголовок)
     private Type type;    // Также все задачи обязательно нужно делить по типу: личные или рабочие задачи
-    private static int id;
+    private int id;
     private LocalDate dateTime;  // У каждой задачи есть дата и время, которые были присвоены при создании.
     private String description;  // Описание задачи(У каждой задачи может быть поле для описания)
 
@@ -17,7 +17,8 @@ public abstract class Task {
         this.type = type;
         this.dateTime = LocalDate.now();
         this.description = description;
-        this.id = idGenerator++;
+        id = idGenerator++;
+
     }
 
 
