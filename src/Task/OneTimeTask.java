@@ -1,15 +1,17 @@
 package Task;
 import Exception.IncorrectArgumentException;
+import Exception.TaskNotFoundException;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class OneTimeTask extends Task{
-    public OneTimeTask(String title, Type type, String description) throws IncorrectArgumentException {
-        super(title, type, description);
+
+    public OneTimeTask(String title, Type type, String description, LocalDateTime taskTime) throws IncorrectArgumentException, TaskNotFoundException {
+        super(title, type, description, taskTime);
     }
 
     @Override
-    public LocalDate getNextTimeTask(LocalDate localDate) {
-        return null;
+    public LocalDateTime getNextTimeTask(LocalDateTime localDateTime) {
+        return localDateTime;
     }
 }

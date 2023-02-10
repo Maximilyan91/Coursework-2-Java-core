@@ -2,14 +2,15 @@ package Task;
 import Exception.IncorrectArgumentException;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 public class WeeklyTask extends Task{
-    public WeeklyTask(String title, Type type, String description) throws IncorrectArgumentException {
-        super(title, type, description);
+    public WeeklyTask(String title, Type type, String description, LocalDateTime taskTime) throws IncorrectArgumentException {
+        super(title, type, description, taskTime);
     }
 
     @Override
-    public LocalDate getNextTimeTask(LocalDate localDate) {
-        return localDate.plusWeeks(1);
+    public LocalDateTime getNextTimeTask(LocalDateTime localDateTime) {
+        return localDateTime.plusWeeks(1);
     }
 }
