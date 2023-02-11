@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.Objects;
 
 public abstract class Task implements Repeatable {
-    private static int idGenerator = 1;  // Также для более гибкого управления задачами рекомендуется завести поле id, которое нужно проставлять через генератор.
+    private static final int idGenerator = 1;  // Также для более гибкого управления задачами рекомендуется завести поле id, которое нужно проставлять через генератор.
     private String title;   // Заголовок задачи.(Каждая задача обязательно имеет заголовок)
     private Type type;    // Также все задачи обязательно нужно делить по типу: личные или рабочие задачи
     private int id;
@@ -19,7 +19,8 @@ public abstract class Task implements Repeatable {
         this.type = type;
         this.dateTime = taskTime;
         setDescription(description);
-        id = idGenerator++;
+        id = idGenerator;
+        id++;
     }
 
     public Type getType() {
@@ -73,14 +74,12 @@ public abstract class Task implements Repeatable {
 
     @Override
     public String toString() {
-        return "Task{" +
-                "idGenerator=" + idGenerator +
-                ", title='" + title + '\'' +
-                ", type=" + type +
-                ", id=" + id +
-                ", dateTime=" + dateTime +
-                ", description='" + description + '\'' +
-                '}';
+        return "id = " + id +
+                "idgen = " + idGenerator +
+                ", Заголовок = " + title +
+                ", Тип = " + type +
+                ", Дата = " + dateTime +
+                ", Описание = " + description;
     }
 }
 

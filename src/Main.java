@@ -7,8 +7,12 @@ import Task.YearlyTask;
 import Task.Task;
 import Task.Type;
 import Exception.IncorrectArgumentException;
+import Exception.TaskNotFoundException;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Collection;
 import java.util.Scanner;
 import java.util.regex.Pattern;
 
@@ -20,6 +24,8 @@ public class Main {
 
     private static final Pattern DATE_TIME_PATTERN = Pattern.compile("\\d{2}\\.\\d{2}\\.\\d{4} \\d{2}\\:\\d{2}");
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
+    private static final Pattern DATE_PATTERN = Pattern.compile("\\d{2}\\.\\d{2}\\.\\d{4}");
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy");
     public static void main(String[] args) {
 
         try (Scanner scanner = new Scanner(System.in)){
@@ -34,8 +40,10 @@ public class Main {
                             inputTask(scanner);
                             break;
                         case 2:
+                            removeTask(scanner);
                             break;
                         case 3:
+                            printTasksByDate(scanner);
                             break;
                         case 0:
                             break label;
@@ -88,6 +96,18 @@ public class Main {
             System.out.println("Задача добавлена");
         } else {
             System.out.println("Введены некорректные данные по задаче");
+        }
+    }
+
+    public static void removeTask(Scanner scanner) {
+        System.out.println("Введите номер задачи, которую хотите удалить");
+        int id = scanner.nextInt();
+
+        try {
+            taskService.removeTask(id);
+        } catch (TaskNotFoundException e) {
+            System.out.println(e.getMessage());
+
         }
     }
 
@@ -155,6 +175,22 @@ public class Main {
         }
 
         return -1;
+    }
+
+    private static void printTasksByDate(Scanner scanner) {
+        System.out.println("Введите дату в формате DD.MM.YYYY");
+        if (scanner.hasNext(DATE_PATTERN)) {
+            String dateTime = scanner.next(DATE_PATTERN);
+            LocalDate inputDate = LocalDate.parse(dateTime, DATE_FORMATTER);
+
+            Collection<Task> taskByDay = taskService.getAllByDate(inputDate);
+            for (Task task : taskByDay) {
+                System.out.println(task);
+            }
+        } else {
+            System.out.println("Введите дату и время задачи в формате DD.MM.YYYY HH:MM");
+            scanner.close();
+        }
     }
 
     private static void printMenu() {
