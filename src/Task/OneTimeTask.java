@@ -6,7 +6,7 @@ import java.time.LocalDateTime;
 
 public class OneTimeTask extends Task{
 
-    public OneTimeTask(String title, Type type, String description, LocalDateTime taskTime) throws IncorrectArgumentException, TaskNotFoundException {
+    public OneTimeTask(String title, Type type, String description, LocalDateTime taskTime) throws IncorrectArgumentException {
         super(title, type, description, taskTime);
     }
 
