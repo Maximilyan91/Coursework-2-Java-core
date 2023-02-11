@@ -20,7 +20,7 @@ public class Main {
     private static final TaskService taskService = new TaskService();
 
     private static final Pattern DATE_TIME_PATTERN = Pattern.compile("\\d{2}\\.\\d{2}\\.\\d{4} \\d{2}\\:\\d{2}");
-    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("DD.MM.YYYY HH:MM");
+    private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
     public static void main(String[] args) throws TaskNotFoundException, IncorrectArgumentException {
 
         try (Scanner scanner = new Scanner(System.in)){
@@ -49,7 +49,9 @@ public class Main {
         }
     }
 
-    private static void inputTask(Scanner scanner) throws TaskNotFoundException, IncorrectArgumentException {
+    private static void inputTask(Scanner scanner) throws IncorrectArgumentException, TaskNotFoundException {
+        scanner.useDelimiter("\n");
+
         System.out.println("Введите название задачи: ");
         String title = scanner.next();
 
@@ -61,20 +63,25 @@ public class Main {
 
         int taskTypeChoice = scanner.nextInt();
 
-        if (taskTypeChoice == 1) {
-            type = Type.PERSONAL;
-        } else if (taskTypeChoice == 2) {
-            type = Type.WORK;
-        } else {
-            scanner.next();
-            System.out.println("Введено некорректное число");
+        switch (taskTypeChoice) {
+            case 1:
+                type = Type.PERSONAL;
+                break;
+            case 2:
+                type = Type.WORK;
+                break;
+            default:
+                System.out.println("Тип задачи указан неверно");
         }
         System.out.println("Введите дату и время задачи в формате DD.MM.YYYY HH:MM");
 
         LocalDateTime taskTime = null;
-        if (scanner.hasNextInt()) {
+        if (scanner.hasNext(DATE_TIME_PATTERN)) {
             String dateTime = scanner.next(DATE_TIME_PATTERN);
             taskTime = LocalDateTime.parse(dateTime, DATE_TIME_FORMATTER);
+        } else {
+            System.out.println("Введите дату и время задачи в формате DD.MM.YYYY HH:MM");
+            scanner.close();
         }
 
         if (taskTime == null) {
@@ -108,6 +115,6 @@ public class Main {
         System.out.println("Задача добавлена");
     }
     private static void printMenu() {
-        System.out.println("1. Добавить задачу\n2. Удалить задачу\n3. Получить задачу на указанный день\n6. Выход");
+        System.out.println("1. Добавить задачу\n2. Удалить задачу\n3. Получить задачу на указанный день\n4. Выход");
     }
 }
