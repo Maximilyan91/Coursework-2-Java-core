@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TaskService {
-    private final Map<Integer, Task> taskMap = new HashMap<>();
+    private Map<Integer, Task> taskMap = new HashMap<>(10);
 
     public void addTask(Task task) {
         this.taskMap.put(task.getId(), task);
@@ -26,28 +26,38 @@ public class TaskService {
     }
 
     public Collection<Task> getAllByDate(LocalDate date) {
-        Collection<Task> taskOnDay = new ArrayList<>();
+        Collection<Task> tasksByDay = new ArrayList<>();
+        Collection<Task> allTasks = taskMap.values();
 
-        for (Task task : taskMap.values()) {
-            LocalDateTime taskTime = task.getDateTime();
-            LocalDateTime taskNextTime = task.getNextTimeTask(taskTime);
+        for (Task task : allTasks) {
+            LocalDateTime currentDateTime = task.getDateTime();
 
-            if (taskNextTime == null || taskTime.toLocalDate().equals(date)) {
-                taskOnDay.add(task);
-                continue;
+            if (currentDateTime.toLocalDate().equals(date)) {
+                tasksByDay.add(task);
+                break;
             }
+            LocalDateTime taskNextTime = currentDateTime;
 
             do {
-                if (taskNextTime.toLocalDate().equals(date)) {
-                    taskOnDay.add(task);
+                taskNextTime = task.getNextTimeTask(taskNextTime);
+
+                if (taskNextTime == null) {
                     break;
                 }
 
-                taskNextTime = task.getNextTimeTask(taskNextTime);
+                if (taskNextTime.toLocalDate().equals(date)) {
+                    tasksByDay.add(task);
+                break;
+                }
+
+
             } while (taskNextTime.toLocalDate().isBefore(date));
+
+
         }
-        return taskOnDay;
+        return tasksByDay;
     }
+
 
 }
 
