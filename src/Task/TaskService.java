@@ -10,10 +10,10 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class TaskService {
-    private Map<Integer, Task> taskMap = new HashMap<>(10);
+    public Map<Integer, Task> taskMap = new HashMap<>();
 
     public void addTask(Task task) {
-        this.taskMap.put(task.getId(), task);
+        taskMap.put(task.getId(), task);
     }
 
     public void removeTask(Integer id) throws TaskNotFoundException {
@@ -22,7 +22,10 @@ public class TaskService {
         } else {
             throw new TaskNotFoundException(id);
         }
+    }
 
+    public void getAllTasks() {
+        System.out.println(taskMap.values());
     }
 
     public Collection<Task> getAllByDate(LocalDate date) {
@@ -30,7 +33,7 @@ public class TaskService {
         Collection<Task> allTasks = taskMap.values();
 
         for (Task task : allTasks) {
-            LocalDateTime currentDateTime = task.getDateTime();
+            LocalDateTime currentDateTime = task.getTaskTime();
 
             if (currentDateTime.toLocalDate().equals(date)) {
                 tasksByDay.add(task);
@@ -49,16 +52,10 @@ public class TaskService {
                     tasksByDay.add(task);
                 break;
                 }
-
-
             } while (taskNextTime.toLocalDate().isBefore(date));
-
-
         }
         return tasksByDay;
     }
-
-
 }
 
 
