@@ -1,6 +1,7 @@
 package Task;
 import Exception.IncorrectArgumentException;
 
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -11,7 +12,7 @@ public class MonthlyTask extends Task{
     }
 
     @Override
-    public LocalDateTime getNextTimeTask(LocalDateTime localDateTime) {
-        return localDateTime.plusMonths(1);
+    public LocalDate getNextDateTask(LocalDate localDate) {
+        return localDate.plusMonths(1);
     }
 }

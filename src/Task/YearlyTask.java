@@ -11,7 +11,7 @@ public class YearlyTask extends Task{
 
 
     @Override
-    public LocalDateTime getNextTimeTask(LocalDateTime localDateTime) {
-        return localDateTime.plusYears(1);
+    public LocalDate getNextDateTask(LocalDate localDate) {
+        return localDate.plusYears(1);
     }
 }

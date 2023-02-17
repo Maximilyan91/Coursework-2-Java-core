@@ -20,7 +20,7 @@ import java.util.regex.Pattern;
 
 public class Main {
 
-    private static final TaskService taskService = new TaskService();
+    private static final TaskService TASK_SERVICE = new TaskService();
 
     private static final Pattern DATE_TIME_PATTERN = Pattern.compile("\\d{2}\\.\\d{2}\\.\\d{4} \\d{2}\\:\\d{2}");
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("dd.MM.yyyy HH:mm");
@@ -78,21 +78,26 @@ public class Main {
             switch (repeatability) {
                 case 1:
                     task = new OneTimeTask(title, type, description, taskTime);
+                    break;
                 case 2:
                     task = new DailyTask(title, type, description, taskTime);
+                    break;
                 case 3:
                     task = new WeeklyTask(title, type, description, taskTime);
+                    break;
                 case 4:
                     task = new MonthlyTask(title, type, description, taskTime);
+                    break;
                 case 5:
                     task = new YearlyTask(title, type, description, taskTime);
+                    break;
             }
         } catch (IncorrectArgumentException e) {
             System.out.println(e.getMessage());
         }
 
         if (task != null) {
-            taskService.addTask(task);
+            TASK_SERVICE.addTask(task);
             System.out.println("Задача добавлена");
         } else {
             System.out.println("Введены некорректные данные по задаче");
@@ -104,7 +109,7 @@ public class Main {
         int id = scanner.nextInt();
 
         try {
-            taskService.removeTask(id);
+            TASK_SERVICE.removeTask(id);
         } catch (TaskNotFoundException e) {
             System.out.println(e.getMessage());
 
@@ -117,7 +122,6 @@ public class Main {
 
         if (title.isBlank() || title.isEmpty()) {
             System.out.println("Введено некорректное название задачи");
-            scanner.close();
         }
         return title;
     }
@@ -171,7 +175,6 @@ public class Main {
             return scanner.nextInt();
         } else {
             System.out.println("Укажите повторяемость");
-            scanner.close();
         }
 
         return -1;
@@ -183,13 +186,12 @@ public class Main {
             String dateTime = scanner.next(DATE_PATTERN);
             LocalDate inputDate = LocalDate.parse(dateTime, DATE_FORMATTER);
 
-            Collection<Task> taskByDay = taskService.getAllByDate(inputDate);
+            Collection<Task> taskByDay = TASK_SERVICE.getAllByDate(inputDate);
             for (Task task : taskByDay) {
                 System.out.println(task);
             }
         } else {
             System.out.println("Введите дату и время задачи в формате DD.MM.YYYY HH:MM");
-            scanner.close();
         }
     }
 

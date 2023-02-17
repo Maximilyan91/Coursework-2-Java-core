@@ -2,6 +2,7 @@ package Task;
 
 import Exception.IncorrectArgumentException;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 public class DailyTask extends Task{
@@ -11,7 +12,7 @@ public class DailyTask extends Task{
     }
 
     @Override
-    public LocalDateTime getNextTimeTask(LocalDateTime localDateTime) {
-        return localDateTime.plusDays(1);
+    public LocalDate getNextDateTask(LocalDate localDate) {
+        return localDate.plusDays(1);
     }
 }
